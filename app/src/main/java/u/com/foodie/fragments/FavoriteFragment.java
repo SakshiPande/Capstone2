@@ -14,6 +14,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -46,7 +47,7 @@ public class FavoriteFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private RecyclerView rvFav;
-    private AdView mAdView;
+    private ProgressBar progressBar;
 
     private OnFragmentInteractionListener mListener;
     private Boolean hasFav=false;
@@ -89,19 +90,17 @@ public class FavoriteFragment extends Fragment {
         View rootview= inflater.inflate(R.layout.fragment_favorite, container, false);
         rvFav=rootview.findViewById(R.id.rv_fav);
 
+        progressBar=rootview.findViewById(R.id.progressBar_fav);
 
-        MobileAds.initialize(getActivity().getApplicationContext(),
-                getResources().getString(R.string.ad_app_id));
 
-        mAdView = rootview.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
         getFavorites();
         return rootview;
     }
 
     private void getFavorites() {
-   MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        progressBar.setVisibility(View.GONE);
+        MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getFavoriteRes().observe(this, new Observer<List<RestaurantDB>>() {
             @Override
             public void onChanged(@Nullable List<RestaurantDB> restaurantDBList) {

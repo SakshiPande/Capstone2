@@ -14,7 +14,7 @@ android {
         debug {
             keyAlias 'key0'
             keyPassword 'sakshi11'
-            storeFile file('../../foodie.jks')
+            storeFile file('../foodie.jks')
             storePassword 'sakshi11'
         }
     }

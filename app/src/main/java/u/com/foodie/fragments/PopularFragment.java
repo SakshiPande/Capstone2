@@ -1,5 +1,6 @@
 package u.com.foodie.fragments;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -17,7 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import u.com.foodie.R;
-import u.com.foodie.adapter.EstablishmentAdapter;
 import u.com.foodie.adapter.PopularRestaurantAdapter;
 import u.com.foodie.model.PopularBaseResponse;
 import u.com.foodie.model.Restaurant;
@@ -41,7 +41,7 @@ public class PopularFragment extends Fragment {
     private Double mLat,mLng;
     private String sort,order;
     private  int   count;
-
+    private ProgressBar progressBar;
 
 
     // TODO: Rename and change types of parameters
@@ -91,17 +91,20 @@ public class PopularFragment extends Fragment {
         count=10;
         order="asc";
 
+        progressBar=rootView.findViewById(R.id.progressBar_popular);
         getPopularRestaurants();
         return rootView;
     }
 
     private void getPopularRestaurants() {
+
         Retrofit retrofit=RestClient.retrofitService();
         FoodieAPI foodieAPI=retrofit.create(FoodieAPI.class);
         Call<PopularBaseResponse> popularBaseResponseCall=foodieAPI.getPopularRestaurants(mLat,mLng,count,sort,order);
         popularBaseResponseCall.enqueue(new Callback<PopularBaseResponse>() {
             @Override
             public void onResponse(Call<PopularBaseResponse> call, Response<PopularBaseResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if(response.isSuccessful()){
                     PopularBaseResponse popularBaseResponse=response.body();
                     List<Restaurant> restaurantList=popularBaseResponse.getRestaurants();
@@ -119,6 +122,7 @@ public class PopularFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PopularBaseResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
 
             }
         });

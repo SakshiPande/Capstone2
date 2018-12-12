@@ -8,7 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.util.List;
 
@@ -37,7 +42,7 @@ public class EstablishmentsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Double mLat,mLng;
     private String cityId;
-
+    private ProgressBar progressBar;
     public EstablishmentsFragment() {
         // Required empty public constructor
     }
@@ -74,8 +79,15 @@ public class EstablishmentsFragment extends Fragment {
 
         mRvRestaurants=(RecyclerView)rootView.findViewById(R.id.rv_categories);
 
+        progressBar=rootView.findViewById(R.id.progressBar_establishment);
 
+        MobileAds.initialize(getActivity().getApplicationContext(), "ca-app-pub-7665140688185309~9146034348");
 
+        AdView mAdView = (AdView) rootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("8D8CB410B8406D77CA612FAE75FFC549")
+                .build();
+        mAdView.loadAd(adRequest);
         getCityID();
 
         return rootView;
@@ -94,6 +106,7 @@ public class EstablishmentsFragment extends Fragment {
             cityIdBaseCall.enqueue(new Callback<CityIdBase>() {
                 @Override
                 public void onResponse(Call<CityIdBase> call, Response<CityIdBase> response) {
+                    progressBar.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
                         CityIdBase cityIdBase = response.body();
                         cityId = cityIdBase.getLocality().getCityId();
@@ -108,6 +121,8 @@ public class EstablishmentsFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<CityIdBase> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(getActivity(), t.getMessage() + "", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -119,12 +134,14 @@ public class EstablishmentsFragment extends Fragment {
     }
 
     private void getEstablishments(String cityId) {
+        progressBar.setVisibility(View.VISIBLE);
         Retrofit retrofit=RestClient.retrofitService();
         FoodieAPI foodieAPI=retrofit.create(FoodieAPI.class);
         Call<Establishments> establishmentsCall=foodieAPI.getEstablishment(cityId);
         establishmentsCall.enqueue(new Callback<Establishments>() {
             @Override
             public void onResponse(Call<Establishments> call, Response<Establishments> response) {
+                progressBar.setVisibility(View.GONE);
 
                 if(response.isSuccessful()){
                     Establishments establishments=response.body();
@@ -141,6 +158,7 @@ public class EstablishmentsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Establishments> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
 
                 Toast.makeText(getContext(), t.getMessage()+"", Toast.LENGTH_SHORT).show();
 

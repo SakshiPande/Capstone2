@@ -241,6 +241,9 @@ public class MainActivity extends AppCompatActivity {
 
             bundle.putDouble("lat",mLat);
             bundle.putDouble("lng",mLng);
+            fragment = new PopularFragment();
+            fragment.setArguments(bundle);
+            loadFragment(fragment);
         }
 
 
