@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Foodie</string>
+    <string name="menu_item_title_search">Search</string>
+    <string name="menu_item_title_establishments">Popular</string>
+
+    <string name="menu_item_title_categories">Categories</string>
+    <string name="menu_item_title_fav">Favorites</string>
+    <string name="API_KEY">865716bbf6e36b095d1e584411efb616</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="remove_from_favorites_button_title">Remove from Favorites</string>
+    <string name="add_to_favorites_button_title">Add To Favorites</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="ad_app_id">ca-app-pub-8280894231148646~2924221676</string>
+    <string name="banner_ad_unit_id">ca-app-pub-8280894231148646/1583219841</string>
+
+</resources>
+

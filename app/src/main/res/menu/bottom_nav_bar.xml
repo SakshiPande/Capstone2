@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_food"
+        android:icon="@drawable/food"
+        android:title="@string/menu_item_title_establishments" />
+
+
+
+    <item
+        android:id="@+id/navigation_categories"
+        android:icon="@drawable/format_list_checkbox"
+        android:title="@string/menu_item_title_categories" />
+
+    <item
+        android:id="@+id/navigation_fav"
+        android:icon="@drawable/heart"
+        android:title="@string/menu_item_title_fav" />
+
+
+</menu>
